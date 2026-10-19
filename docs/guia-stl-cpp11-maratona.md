@@ -1,6 +1,6 @@
 # Guia técnico de C++11 para maratonas: biblioteca padrão, memória e estruturas compostas
 
-> Escopo: C++11 estrito (`-std=c++11`), preferencialmente GCC/libstdc++ e `#include <bits/stdc++.h>` com `using namespace std;`. Explica ferramentas reutilizáveis, **não resolve os exercícios dos cadernos**. A identificação de padrões está em [Mapa dos cadernos](mapa-cadernos-estruturas.md).
+> Escopo: C++11 estrito (`-std=c++11`), preferencialmente GCC/libstdc++ e `#include <bits/stdc++.h>` com `using namespace std;`. Explica ferramentas reutilizáveis, **não resolve os exercícios dos cadernos**. A identificação de padrões está em [Mapa dos cadernos](mapa-cadernos-estruturas.md). Consulte o [glossário bilíngue PT-BR / inglês](glossario-algoritmos-ptbr-en.md) para pesquisar as técnicas pelos dois nomes.
 
 ## 1. O que significa "built-in" em C++?
 
@@ -37,8 +37,8 @@ Complexidades em função do número de elementos `n`. Quando indicado O(1) para
 | --- | --- | --- | --- | --- |
 | `T dados[N]` (array nativo) | Bloco fixo contíguo | Índice O(1) | Tamanho fixo | Grade pequena conhecida em compilação, interoperabilidade com C |
 | `array<T,N>` | Array fixo, objeto da STL | Índice O(1) | Tamanho fixo | Estado de dimensão fixa, ordenação com iteradores |
-| `vector<T>` | Array dinâmico contíguo | Índice O(1) | `push_back` O(1) amortizado; inserir no meio O(n) | **Padrão principal** para listas, grades, adjacência e DP |
-| `deque<T>` | Sequência segmentada, duas pontas | Índice O(1) | Início/fim O(1) amortizado | Janela deslizante, deque monotônica, BFS 0–1 |
+| `vector<T>` | Array dinâmico contíguo | Índice O(1) | `push_back` O(1) amortizado; inserir no meio O(n) | **Padrão principal** para listas, grades, adjacência e programação dinâmica (Dynamic Programming — DP) |
+| `deque<T>` | Sequência segmentada, duas pontas | Índice O(1) | Início/fim O(1) amortizado | Janela deslizante (Sliding Window), fila dupla monotônica (Monotonic Deque), busca em largura 0–1 (0–1 BFS) |
 | `list<T>` | Lista duplamente encadeada | Percurso O(n) | Inserção/remoção com iterador O(1) | Mover nós via `splice`, iteradores estáveis |
 | `forward_list<T>` | Lista simplesmente encadeada (C++11) | Percurso O(n) | `insert_after`/`erase_after` O(1) | Lista encadeada enxuta, quando realmente necessária |
 
@@ -82,7 +82,7 @@ Pior caso O(n). `unordered_map` não suporta `lower_bound` e **não garante** or
 | --- | --- | --- |
 | `stack<T>` | Pilha LIFO | `push`, `pop`, `top`, `empty` |
 | `queue<T>` | Fila FIFO | `push`, `pop`, `front`, `back` |
-| `priority_queue<T>` | Heap, maior no topo por padrão | `push` O(log n), `top` O(1), `pop` O(log n) |
+| `priority_queue<T>` | Montículo (Heap), maior no topo por padrão | `push` O(log n), `top` O(1), `pop` O(log n) |
 
 **Cuidado:** `pop()` nesses adaptadores não retorna o elemento removido. Consulte `top()`/`front()` **antes** de remover. Para mínimo primeiro:
 
@@ -103,7 +103,7 @@ cout << menores.top() << '\n'; // 3
 - `valarray<T>`: operações numéricas elemento a elemento; existe no padrão, porém é pouco usado em maratonas.
 - `complex<T>`: complexos; pode ajudar em geometria e matemática.
 - `reference_wrapper<T>`, `unique_ptr<T>`, `shared_ptr<T>`: referências armazenáveis em containers e gerenciamento de propriedade/memória.
-- `function<Assinatura>`: armazena funções/lambdas com custo de abstração; para DFS recursiva, compare com uma função nomeada.
+- `function<Assinatura>`: armazena funções/lambdas com custo de abstração; para busca em profundidade (Depth-First Search — DFS) recursiva, compare com uma função nomeada.
 - `chrono` e `random`: medição local e geradores de pseudoaleatoriedade (`mt19937`, `uniform_int_distribution`) — nunca basear correção de problemas determinísticos só em sorteio.
 
 ## 3. Como escolher rapidamente a estrutura
@@ -119,11 +119,11 @@ cout << menores.top() << '\n'; // 3
 | Manter o menor valor disponível dinamicamente | `priority_queue<T,vector<T>,greater<T>>` | `multiset` quando precisar remover elementos arbitrários |
 | Comandos desfazer/refazer | `stack` ou `vector` | `vector` permite percorrer elementos |
 | Processar em ordem de chegada | `queue` | `deque` se precisar de duas pontas |
-| Consultas repetidas de intervalo estático | Prefixos e `vector<long long>` | Sparse table para mínimos/máximos idempotentes |
-| Consultas de intervalo com atualizações | Fenwick / Segment Tree (não prontas) | `vector` interno |
+| Consultas repetidas de intervalo estático | Prefixos e `vector<long long>` | Tabela esparsa (Sparse Table) para mínimos/máximos idempotentes |
+| Consultas de intervalo com atualizações | Árvore de Fenwick (Fenwick Tree) / árvore de segmentos (Segment Tree), não prontas | `vector` interno |
 | Dependências e redes | Lista de adjacência | `vector<vector<int>>` |
-| Palavras com prefixos | Trie (não pronta) | Nós em `vector`, ou `map` por nó |
-| Conectividade sob união | DSU (não pronta) | `vector<int> parent, size` |
+| Palavras com prefixos | Árvore de prefixos (Trie), não pronta | Nós em `vector`, ou `map` por nó |
+| Conectividade sob união | Conjuntos disjuntos (Disjoint Set Union — DSU), não pronta | `vector<int> parent, size` |
 
 > **Regra de eficiência:** se você lê tudo e só depois consulta, um `vector` **ordenado uma vez** costuma ser preferível a alimentar `set` continuamente. Se há inserções/remoções entre consultas, associe o padrão de operações ao container.
 
@@ -145,7 +145,7 @@ A maior parte dos utilitários seguintes está em `<algorithm>`; o atalho `bits/
 | `lower_bound` / `upper_bound` | Primeiro `>= x` / primeiro `> x` | O(log n) comparações com intervalo ordenado; em iteradores sem acesso aleatório, deslocamento pode ser O(n) |
 | `binary_search` / `equal_range` | Existência e faixa de equivalência | Intervalo ordenado |
 | `next_permutation`, `prev_permutation` | Permutação lexicográfica | O(n) por transição |
-| `make_heap`, `push_heap`, `pop_heap`, `sort_heap` | Heap em intervalo de `vector` | O(n), O(log n), O(log n), O(n log n) |
+| `make_heap`, `push_heap`, `pop_heap`, `sort_heap` | Montículo (Heap) em intervalo de `vector` | O(n), O(log n), O(log n), O(n log n) |
 | `shuffle` | Permutação pseudoaleatória com gerador | C++11 (`<random>`) |
 
 Para ordenar de forma decrescente:
@@ -397,7 +397,7 @@ Não use `v.front()`, `v.back()`, `pq.top()`, `*v.begin()`, `*it` se o objeto/it
 
 - Prefira `vector` a `new[]`/`delete[]`: o container administra o lifetime dos elementos (RAII).
 - `vector<vector<int>>` armazena cada linha separadamente; se o problema for grande, um `vector<int> grade(linhas*colunas)` com acesso `grade[r*colunas+c]` pode ser mais eficiente.
-- Recursão muito profunda (por exemplo, 200.000 vértices em cadeia) pode estourar a pilha no juiz. Considere DFS **iterativa** com `vector<int>` ou `stack<int>`.
+- Recursão muito profunda (por exemplo, 200.000 vértices em cadeia) pode estourar a pilha no juiz. Considere busca em profundidade (Depth-First Search — DFS) **iterativa** com `vector<int>` ou `stack<int>`.
 - Em `map` e `set`, cada nó tem overhead além do valor. Em grandes instâncias, `vector` + ordenação pode consumir menos memória e ser mais rápido na prática.
 - `swap(a,b)` troca estados; `std::move` pode evitar cópias de buffers; cópia de `vector` duplica os elementos.
 - Não devolva referência ou ponteiro para variável local que deixa de existir.
@@ -409,12 +409,12 @@ Para `n=100.000`, ordenar é frequentemente viável; executar `O(n²)` (10 bilh�
 
 | Restrição / padrão | Complexidades candidatas |
 | --- | --- |
-| `n <= 20` | Backtracking, bitmask, `O(2^n)` com avaliação de custo |
+| `n <= 20` | Busca com retrocesso (Backtracking), máscara de bits (Bitmask), `O(2^n)` com avaliação de custo |
 | `n <= 100` | `O(n^3)` em cenários simples |
 | `n <= 1.000` | `O(n²)` muitas vezes cabe |
 | `n <= 100.000` | `O(n log n)` ou `O(n)` |
 | Consultas estáticas numerosas | Pré-processar para reduzir custo por consulta |
-| Consultas e atualizações intercaladas | Fenwick, Segment Tree, mapas ordenados |
+| Consultas e atualizações intercaladas | Árvore de Fenwick (Fenwick Tree), árvore de segmentos (Segment Tree), mapas ordenados |
 
 **Verifique sempre:** pior caso; formato de input; limites de valores; número de casos; necessidade de ordenação; estabilidade; desempate; ordem da saída; duplicatas; validade de índices; estouro de inteiros.
 
@@ -452,11 +452,11 @@ int main() {
 - **Ponderado:** armazene peso junto ao destino (`pair<int,long long>` ou `struct`).
 - **Grafo sem pesos:** `vector<vector<int>>`.
 - **Matriz de adjacência:** `vector<vector<bool>>` ou `vector<vector<char>>` usa O(V²) espaço; útil em instâncias pequenas/densas.
-- **BFS:** uma `queue<int>` sobre a lista de adjacência; O(V+E).
-- **DFS:** pilha/recursão; O(V+E).
-- **Dijkstra:** `priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<pair<long long,int>>>` com distâncias; exige pesos não negativos.
-- **Componentes fortemente conexas:** DFS sobre grafo e transposto (Kosaraju) ou Tarjan; não há implementação STL pronta.
-- **Pontes/articulações:** DFS com tempos de entrada e valores `low`; não há estrutura pronta.
+- **Busca em largura (Breadth-First Search — BFS):** uma `queue<int>` sobre a lista de adjacência; O(V+E).
+- **Busca em profundidade (Depth-First Search — DFS):** pilha/recursão; O(V+E).
+- **Algoritmo de Dijkstra (Dijkstra's Algorithm):** `priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<pair<long long,int>>>` com distâncias; exige pesos não negativos.
+- **Componentes fortemente conexas (Strongly Connected Components — SCC):** busca em profundidade (Depth-First Search — DFS) sobre grafo e transposto; algoritmo de Kosaraju (Kosaraju's Algorithm) ou algoritmo de Tarjan (Tarjan's Algorithm); não há implementação STL pronta.
+- **Pontes/articulações:** busca em profundidade (Depth-First Search — DFS) com tempos de entrada e valores `low`; não há estrutura pronta.
 
 ### 10.2. Árvore: também é grafo, mas sem ciclos
 
@@ -484,11 +484,11 @@ Isso armazena nós em memória contígua, e os **índices** continuam representa
 
 **Árvores de busca balanceadas ordenadas:** `set` e `map` já resolvem muitos requisitos (inserir/remover/localizar chaves e vizinhos em O(log n)). A biblioteca padrão **não expõe** o tipo específico da árvore interna nem seus filhos, altura, rotações ou o k-ésimo menor elemento por índice.
 
-**Árvore de prefixos (trie), árvore de segmentos, Fenwick, LCA, árvore binária de nós arbitrários:** precisam ser montadas conforme a necessidade.
+**Árvore de prefixos (Trie), árvore de segmentos (Segment Tree), árvore de Fenwick (Fenwick Tree), ancestral comum mais baixo (Lowest Common Ancestor — LCA), árvore binária de nós arbitrários:** precisam ser montadas conforme a necessidade.
 
-### 10.3. DSU / Union-Find: conjuntos disjuntos
+### 10.3. Conjuntos disjuntos (Disjoint Set Union — DSU / Union-Find)
 
-Não existe uma classe DSU padrão; costuma combinar dois `vector<int>` com união por tamanho e compressão de caminho. Serve para **componentes que se unem**, mas não para remoções arbitrárias de arestas.
+Não existe uma classe de conjuntos disjuntos (DSU / Union-Find) padrão; costuma combinar dois `vector<int>` com união por tamanho e compressão de caminho. Serve para **componentes que se unem**, mas não para remoções arbitrárias de arestas.
 
 ```cpp
 struct DSU {
@@ -517,7 +517,7 @@ struct DSU {
 
 Custo amortizado quase constante por operação (O(α(n))). Para enormes cadeias de chamadas ou contextos restritos, é possível implementar `encontrar` iterativamente.
 
-### 10.4. Fenwick Tree / Binary Indexed Tree
+### 10.4. Árvore de Fenwick (Fenwick Tree / Binary Indexed Tree — BIT)
 
 Criada com `vector<long long>` e índices internos **1-based**. A variante abaixo suporta **incrementar um elemento** e **somar um prefixo**.
 
@@ -547,11 +547,11 @@ struct Fenwick {
 };
 ```
 
-Ambas operações O(log n). **Não é uma Segment Tree universal:** a estrutura e as operações dependem da agregação matemática suportada.
+Ambas operações O(log n). **Não é uma árvore de segmentos (Segment Tree) universal:** a estrutura e as operações dependem da agregação matemática suportada.
 
-### 10.5. Segment Tree: consultas e alterações em intervalos
+### 10.5. Árvore de segmentos (Segment Tree): consultas e alterações em intervalos
 
-A variante abaixo agrega **soma** e implementa **atribuição em um índice**, com custo O(log n) para cada operação. É apenas um modelo de API genérica; versões de mínimo, máximo, contagem, lazy propagation e persistência exigem outras regras.
+A variante abaixo agrega **soma** e implementa **atribuição em um índice**, com custo O(log n) para cada operação. É apenas um modelo de API genérica; versões de mínimo, máximo, contagem, propagação preguiçosa (Lazy Propagation) e persistência exigem outras regras.
 
 ```cpp
 struct SegmentTree {
@@ -585,9 +585,9 @@ struct SegmentTree {
 
 Memória O(n) e construção da estrutura O(n); com `definir` para cada elemento inicialmente, o preenchimento completo será O(n log n).
 
-### 10.6. Trie / Prefix Tree
+### 10.6. Árvore de prefixos (Trie / Prefix Tree)
 
-Útil quando o problema depende de **prefixos compartilhados** de palavras. Não existe trie pronta no C++11. Um nó pode combinar um array de 26 índices e um marcador de palavra terminada:
+Útil quando o problema depende de **prefixos compartilhados** de palavras. Não existe uma árvore de prefixos (Trie) pronta no C++11. Um nó pode combinar um array de 26 índices e um marcador de palavra terminada:
 
 ```cpp
 struct NoTrie {
@@ -625,7 +625,7 @@ struct Trie {
 
 Percorrer/inserir palavra de comprimento L custa O(L); o espaço depende do total de prefixos distintos. Quando o alfabeto é esparso ou não restrito a `a-z`, é possível trocar `array<int,26>` por `map<char,int>` ou `unordered_map<char,int>`, com diferenças de custo/memória.
 
-### 10.7. Sparse Table: intervalos estáticos
+### 10.7. Tabela esparsa (Sparse Table): intervalos estáticos
 
 Para operações idempotentes, como **mínimo** ou **máximo**, pode usar `vector<vector<int>> tabela` indexada por potência de 2. Construção O(n log n), consulta O(1) (mínimos/máximos com sobreposição), memória O(n log n). Não fornece atualizações eficientes; não use a mesma regra de consulta sobre soma, pois haveria contagem duplicada.
 
@@ -633,26 +633,26 @@ Para operações idempotentes, como **mínimo** ou **máximo**, pode usar `vecto
 
 | Estrutura/técnica | Componentes | Padrão |
 | --- | --- | --- |
-| Prefix sum 1D | `vector<long long>` de tamanho N+1 | Muitas somas em intervalos estáticos: prefixos O(n), consulta O(1) |
-| Prefix sum 2D | `vector<vector<long long>>` com borda extra | Muitas somas de sub-retângulos |
-| Difference array | `vector<long long>` | Muitas atualizações aditivas por intervalo, materializar no fim |
-| Monotonic stack | `vector<int>` como pilha ou `stack<int>` | Próximo maior/menor, spans, limites monotônicos |
-| Monotonic deque | `deque<int>` | Máximo/mínimo em janelas móveis |
-| 0–1 BFS | `deque<int>` + adjacência | Grafos com pesos 0 e 1 |
-| Tree DP | Adjacência + ordem de visita + arrays | Agregar estados dos filhos em um nó |
-| Binary lifting / LCA | `vector<vector<int>> ancestral`, profundidade | Consultas de ancestral comum, após pré-processamento |
-| Treap / BST próprio | `struct No`, nós e ligações | Ordem estatística, split/merge, políticas especiais |
+| Soma prefixada 1D (Prefix Sum) | `vector<long long>` de tamanho N+1 | Muitas somas em intervalos estáticos: prefixos O(n), consulta O(1) |
+| Soma prefixada 2D (Prefix Sum) | `vector<vector<long long>>` com borda extra | Muitas somas de sub-retângulos |
+| Vetor de diferenças (Difference Array) | `vector<long long>` | Muitas atualizações aditivas por intervalo, materializar no fim |
+| Pilha monotônica (Monotonic Stack) | `vector<int>` como pilha ou `stack<int>` | Próximo maior/menor, spans, limites monotônicos |
+| Fila dupla monotônica (Monotonic Deque) | `deque<int>` | Máximo/mínimo em janelas móveis |
+| Busca em largura 0–1 (0–1 BFS) | `deque<int>` + adjacência | Grafos com pesos 0 e 1 |
+| Programação dinâmica em árvores (Tree DP) | Adjacência + ordem de visita + arrays | Agregar estados dos filhos em um nó |
+| Saltos binários (Binary Lifting) / ancestral comum mais baixo (Lowest Common Ancestor — LCA) | `vector<vector<int>> ancestral`, profundidade | Consultas de ancestral comum, após pré-processamento |
+| Treap (árvore de busca aleatorizada) / árvore binária de busca (Binary Search Tree — BST) própria | `struct No`, nós e ligações | Ordem estatística, split/merge, políticas especiais |
 | Simulação de pilhas alinhadas | `vector<vector<int>>` | Índices físicos, acesso a níveis e pilhas vizinhas |
-| Heap com remoção preguiçosa | `priority_queue` + `unordered_map` ou controle de versão | Prioridades mudam; descartar entradas antigas no topo |
-| LRU | `list<pair<K,V>>` + `unordered_map<K, list<...>::iterator>` | Reordenar elementos mantendo referências a nós |
-| DP por estado | `vector`/`array` ou `unordered_map` | Estados densos ou esparsos |
+| Montículo (Heap) com remoção preguiçosa (Lazy Deletion) | `priority_queue` + `unordered_map` ou controle de versão | Prioridades mudam; descartar entradas antigas no topo |
+| Menos recentemente usado (Least Recently Used — LRU) | `list<pair<K,V>>` + `unordered_map<K, list<...>::iterator>` | Reordenar elementos mantendo referências a nós |
+| Programação dinâmica por estado (Dynamic Programming — DP) | `vector`/`array` ou `unordered_map` | Estados densos ou esparsos |
 | Combinatória por máscara | `bitset`, `uint64_t` ou `vector<uint64_t>` | Subconjuntos de tamanho pequeno/médio |
 
-**Cuidado em estruturas "montadas":** identifique claramente quais operações o problema pede e quais o modelo acima realmente implementa. Por exemplo, Fenwick de soma não resolve automaticamente mínimo arbitrário com atualizações.
+**Cuidado em estruturas "montadas":** identifique claramente quais operações o problema pede e quais o modelo acima realmente implementa. Por exemplo, uma árvore de Fenwick (Fenwick Tree) de soma não resolve automaticamente mínimo arbitrário com atualizações.
 
 ## 11. Extensões GNU úteis, mas NÃO parte do C++11 padrão
 
-A biblioteca padrão **não** contém uma ordered-statistics tree de uso genérico (`find_by_order` / `order_of_key`). Em GCC existe a extensão **policy-based data structures (PBDS)**:
+A biblioteca padrão **não** contém uma árvore de estatísticas de ordem (Order Statistics Tree) de uso genérico (`find_by_order` / `order_of_key`). Em GCC existe a extensão **estruturas de dados baseadas em políticas (Policy-Based Data Structures — PBDS)**:
 
 ```cpp
 #include <bits/stdc++.h>
@@ -669,7 +669,7 @@ typedef tree<int, null_type, less<int>, rb_tree_tag,
 - `arvoreOrdenada.find_by_order(k)`: iterador da k-ésima chave, índice 0.
 - É **extensão**, não garantida no BOCA só porque `bits/stdc++.h` existe. Verifique a imagem do juiz.
 - `tree` é um conjunto sem duplicatas; para multiconjunto com ranking são necessárias adaptações cuidadosas (por exemplo, pares com ID único).
-- Não conte com PBDS se a proposta da prova exigir **estritamente biblioteca padrão**. Fenwick, Segment Tree ou ordenação prévia podem ser alternativas.
+- Não conte com PBDS se a proposta da prova exigir **estritamente biblioteca padrão**. Uma árvore de Fenwick (Fenwick Tree), árvore de segmentos (Segment Tree) ou ordenação prévia podem ser alternativas.
 
 Também são extensões GCC: `__builtin_popcount`, `__builtin_clz`, `__int128`, VLA `int v[n]` (não é C++11 ISO). No padrão: `vector<int> v(n)` para tamanho variável.
 
@@ -697,7 +697,7 @@ Exemplos de alternativas C++11: `make_pair` ou `pair<int,int>{...}`, `.first`/`.
 3. **Modelo:** sequência, matriz, grafo dirigido/ponderado, árvore, texto, pontos, eventos.
 4. **Operações:** consultas estáticas ou intercaladas com mudanças? Exige ordem? Duplicatas? Próximo vizinho?
 5. **Estrutura:** vetor, set/map, hash, queue/heap ou estrutura composta.
-6. **Técnica:** ordenar, prefixos, busca binária, dois ponteiros, janela, BFS/DFS, programação dinâmica etc.
+6. **Técnica:** ordenar, prefixos, busca binária (Binary Search), dois ponteiros (Two Pointers), janela deslizante (Sliding Window), busca em largura (Breadth-First Search — BFS), busca em profundidade (Depth-First Search — DFS) e programação dinâmica (Dynamic Programming — DP) etc.
 7. **Complexidade:** escolha estimativa conservadora para pior caso e compare com limite.
 8. **Robustez:** overflow, índices 0/1-based, invalidação, recursão profunda, desempates, formato.
 9. **Teste local:** casos mínimo, máximo, empate, duplicatas, vazio (se permitido), dados ordenados/inversos.

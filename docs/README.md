@@ -2,8 +2,9 @@
 
 Materiais para consulta rápida durante o estudo e a preparação para BOCA/beecrowd.
 
-- [Guia aprofundado de C++11 — containers, algoritmos, memória e estruturas compostas](guia-stl-cpp11-maratona.md): inventário de recursos prontos, conversões, passagem por cópia e referência, árvores, grafos, DSU, Fenwick, Segment Tree e trie.
+- [Guia aprofundado de C++11 — containers, algoritmos, memória e estruturas compostas](guia-stl-cpp11-maratona.md): inventário de recursos prontos, conversões, passagem por cópia e referência, árvores, grafos, conjuntos disjuntos (Disjoint Set Union — DSU), árvore de Fenwick (Fenwick Tree), árvore de segmentos (Segment Tree) e árvore de prefixos (Trie).
 - [Mapa dos cadernos — problemas e estruturas candidatas](mapa-cadernos-estruturas.md): relaciona os enunciados do acervo `maratona-cadernos` às estruturas sem resolver exercícios.
+- [Glossário PT-BR / inglês de algoritmos e estruturas](glossario-algoritmos-ptbr-en.md): busca em largura (BFS), busca em profundidade (DFS), ordenação por intercalação (Merge Sort), árvore de segmentos (Segment Tree), entre outros.
 - [I/O com a biblioteca C](io-c.md): `scanf`, `printf`, especificadores, largura, precisão, EOF, `fgets`, `getchar`, `sscanf`, `snprintf`, buffers e segurança.
 - [I/O de C++11 e equivalências C ↔ C++](io-cpp11.md): `cin`, `cout`, `iomanip`, `getline`, `stringstream`, tabelas de correspondência, diferenças e limitações reais.
 

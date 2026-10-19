@@ -7,6 +7,7 @@ Ambiente para praticar maratonas de programação com C++11, usando GNU Make e o
 - [Documentação em `docs/`](docs/README.md): índice de guias e materiais de estudo C++11.
 - [Guia aprofundado de estruturas e algoritmos C++11](docs/guia-stl-cpp11-maratona.md): containers, conversões, ordenação, memória, referências e estruturas compostas.
 - [Mapa de problemas dos cadernos e estruturas candidatas](docs/mapa-cadernos-estruturas.md): análise dos PDFs por tipo de problema, sem resoluções.
+- [Glossário de algoritmos em português e inglês](docs/glossario-algoritmos-ptbr-en.md): equivalências de nomes e siglas usados na literatura.
 - [Usando `scanf` e `printf` em C++11](docs/io-c.md): formatos, cuidados com buffers, EOF e exemplos.
 - [Equivalências de formatação no I/O de C++11](docs/io-cpp11.md): substituições para `scanf`/`printf`, manipuladores, limites e diferenças.
 

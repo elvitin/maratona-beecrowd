@@ -1,6 +1,6 @@
 # Mapa dos cadernos de maratona → estruturas e técnicas C++11
 
-> **Objetivo:** conectar o [guia de estruturas C++11](guia-stl-cpp11-maratona.md) com **problemas reais** dos cadernos fornecidos. **Não contém resolução, passo a passo de solução, código específico do problema nem saída calculada.** As sugestões abaixo são **candidatas ao estudo**, não garantias de necessidade ou de complexidade ótima.
+> **Objetivo:** conectar o [guia de estruturas C++11](guia-stl-cpp11-maratona.md) com **problemas reais** dos cadernos fornecidos. **Não contém resolução, passo a passo de solução, código específico do problema nem saída calculada.** As sugestões abaixo são **candidatas ao estudo**, não garantias de necessidade ou de complexidade ótima. Os nomes em PT-BR e inglês estão organizados no [glossário bilíngue](glossario-algoritmos-ptbr-en.md).
 
 ## 1. Corpus e método
 
@@ -40,12 +40,12 @@ Foram inspecionados os PDFs de tarefas de 2005 a 2019 e de 2022 a 2025 (19 cader
 | --- | ---: | --- | --- |
 | 2006 — **Futebol** | [4](maratona-cadernos/tarefas2006.pdf#page=4) | Times, partidas, estatísticas e desempates | `struct Time`, `vector<Time>`, `map<string,int>`, `sort` com comparador |
 | 2009 — **Fake Tickets** | [5](maratona-cadernos/tarefas2009.pdf#page=5) | Bilhetes identificados por números e ocorrências | `vector<int>` de frequências, `unordered_map` ou `sort` |
-| 2012 — **Onde Estão as Bolhas?** | [4](maratona-cadernos/tarefas2012.pdf#page=4) | Ordenação por trocas adjacentes, sequências extensas | `vector`; conceito de inversões, contagem combinada a merge sort/Fenwick Tree (**não** substituir diretamente pelo número de comparações de `sort`) |
+| 2012 — **Onde Estão as Bolhas?** | [4](maratona-cadernos/tarefas2012.pdf#page=4) | Ordenação por trocas adjacentes, sequências extensas | `vector`; contagem de inversões (Inversion Counting) combinada a ordenação por intercalação (Merge Sort) ou árvore de Fenwick (Fenwick Tree) (**não** substituir diretamente pelo número de comparações de `sort`) |
 | 2013 — **Symmetric Order** | [6](maratona-cadernos/tarefas2013.pdf#page=6) | Nomes e ordenação com regras de organização | `vector<string>`, `deque<string>` ou índices ordenados |
 | 2014 — **Campeonato de Futebol da FIPP** | [4](maratona-cadernos/tarefas2014.pdf#page=4) | Classificação e ordenação de participantes | `struct`, `vector`, `sort` e regras de desempate |
 | 2018 — **Um vencedor** | [2](maratona-cadernos/tarefas2018.pdf#page=2) | Votos/pontuações e escolha de resultado | `vector`, `map`, contagens e desempates |
 | 2023 — **Pastas** | [10](maratona-cadernos/tarefas2023.pdf#page=10) | Pastas representadas pela **posição da aba** e sequência periódica de arquivamento | `vector<int>` ou `array` de frequências; **não** é árvore de diretórios |
-| 2024 — **Telefone Celular** | [4](maratona-cadernos/tarefas2024.pdf#page=4) | Dicionário de palavras e completamento por prefixos | Trie com `vector<No>` + `array<int,26>`; alternativa: `vector<string>` ordenado e análise de prefixos |
+| 2024 — **Telefone Celular** | [4](maratona-cadernos/tarefas2024.pdf#page=4) | Dicionário de palavras e completamento por prefixos | árvore de prefixos (Trie / Prefix Tree) com `vector<No>` + `array<int,26>`; alternativa: `vector<string>` ordenado e análise de prefixos |
 | 2024 — **What is the class?** | [6](maratona-cadernos/tarefas2024.pdf#page=6) | Pontos 2D, classes, distância Manhattan/Euclidiana e desempate | `struct Ponto`, `vector<Ponto>`, `min_element`, comparadores, aritmética segura |
 | 2025 — **The Space Explorers** | [5](maratona-cadernos/tarefas2025.pdf#page=5) | Centroides e consultas de ponto mais próximo em 2D | `vector<pair<double,double>>`, comparação de distâncias; avaliar quando busca linear basta e quando índice espacial se justifica |
 | 2025 — **Estação Mais Próxima** | [7](maratona-cadernos/tarefas2025.pdf#page=7) | Posições **já ordenadas** em 1D e muitas consultas | `vector<long long>`, `lower_bound`, cálculo de distância a candidatos vizinhos |
@@ -72,14 +72,14 @@ Foram inspecionados os PDFs de tarefas de 2005 a 2019 e de 2022 a 2025 (19 cader
 
 | Caderno / problema | Página PDF | Dados / operações observadas | Ferramentas candidatas e tema de estudo |
 | --- | ---: | --- | --- |
-| 2013 — **Curso Universitário** | [4](maratona-cadernos/tarefas2013.pdf#page=4) | Disciplinas, relações de pré-requisito e planejamento | Grafo de dependências, `vector<vector<int>>`, graus de entrada, `queue`, ordenação topológica |
-| 2016 — **Países em Guerra** | [3](maratona-cadernos/tarefas2016.pdf#page=3) | Rede **direcionada**, tempos de entrega e grupos mutuamente alcançáveis | Lista de adjacência ponderada; alcançabilidade, componentes fortemente conexas, caminhos mínimos |
-| 2016 — **Rota Crítica** | [9](maratona-cadernos/tarefas2016.pdf#page=9) | Estradas cuja interrupção compromete conectividade | Grafo não direcionado, DFS, pontes/articulações, tempos `tin/low` |
+| 2013 — **Curso Universitário** | [4](maratona-cadernos/tarefas2013.pdf#page=4) | Disciplinas, relações de pré-requisito e planejamento | Grafo de dependências, `vector<vector<int>>`, graus de entrada, `queue`, ordenação topológica (Topological Sorting) |
+| 2016 — **Países em Guerra** | [3](maratona-cadernos/tarefas2016.pdf#page=3) | Rede **direcionada**, tempos de entrega e grupos mutuamente alcançáveis | Lista de adjacência ponderada; alcançabilidade, componentes fortemente conexas (Strongly Connected Components — SCC), caminhos mínimos (Shortest Paths) |
+| 2016 — **Rota Crítica** | [9](maratona-cadernos/tarefas2016.pdf#page=9) | Estradas cuja interrupção compromete conectividade | Grafo não direcionado, busca em profundidade (Depth-First Search — DFS), pontes/articulações, tempos `tin/low` |
 | 2017 — **Árvore** | [4](maratona-cadernos/tarefas2017.pdf#page=4) | Árvore com até 200.000 vértices coloridos | `vector<vector<int>>`, travessia iterativa, pais/profundidades, agregação em árvore |
 | 2022 — **Copa do mundo** | [10](maratona-cadernos/tarefas2022.pdf#page=10) | Chave de confrontos e progressão de resultados | `vector`, `queue`, modelo de árvore de torneio |
-| 2024 — **Challenging Hike** | [8](maratona-cadernos/tarefas2024.pdf#page=8) | Árvore de pontos turísticos, valores e escolha de sequência crescente em caminhos | Adjacência, DFS iterativa, estados de sequência crescente, técnicas de LIS/DP em árvore |
+| 2024 — **Challenging Hike** | [8](maratona-cadernos/tarefas2024.pdf#page=8) | Árvore de pontos turísticos, valores e escolha de sequência crescente em caminhos | Adjacência, busca em profundidade (Depth-First Search — DFS) iterativa, estados de sequência crescente, técnicas de maior subsequência estritamente crescente (Longest Increasing Subsequence — LIS) e programação dinâmica em árvores (Tree DP) |
 
-O termo **árvore** no enunciado nem sempre exige construir uma BST própria. Uma árvore do problema normalmente é um **grafo acíclico conectado** e basta lista de adjacência. Já uma **trie** é uma estrutura específica para prefixos. **Fenwick** e **Segment Tree** servem para consultas/atualizações de intervalos, não para armazenar automaticamente as arestas de uma árvore de vértices.
+O termo **árvore** no enunciado nem sempre exige construir uma BST própria. Uma árvore do problema normalmente é um **grafo acíclico conectado** e basta lista de adjacência. Já uma **árvore de prefixos (Trie)** é uma estrutura específica para prefixos. a **árvore de Fenwick (Fenwick Tree)** e a **árvore de segmentos (Segment Tree)** servem para consultas/atualizações de intervalos, não para armazenar automaticamente as arestas de uma árvore de vértices.
 
 ## 6. Exercícios por estrutura: roteiro de estudo sem gabarito
 
@@ -89,18 +89,18 @@ O termo **árvore** no enunciado nem sempre exige construir uma BST própria. Um
 | `vector` + `sort` + comparador | 2006 Futebol; 2014 Campeonato de Futebol da FIPP; 2025 The Supreme AI Model |
 | Busca binária em vetor ordenado | 2025 Estação Mais Próxima |
 | Hash, contadores, arrays de frequência | 2009 Fake Tickets; 2023 Pastas; 2025 A Curiosidade de Lee |
-| Estruturas de prefixo (trie) | 2024 Telefone Celular |
+| Árvores de prefixos (Trie / Prefix Tree) | 2024 Telefone Celular |
 | Matrizes e simulação | 2006 Minesweeper; 2012 Robô Colecionador; 2015 Zona de Animais |
-| Prefixos, DP e consultas de intervalo | 2019 Unidirecional; 2024 Doces do Dia das Bruxas |
+| Somas prefixadas (Prefix Sum), programação dinâmica (Dynamic Programming — DP) e consultas de intervalo | 2019 Unidirecional; 2024 Doces do Dia das Bruxas |
 | Grafos e componentes | 2013 Curso Universitário; 2016 Países em Guerra; 2016 Rota Crítica |
-| Árvores com DFS e estados | 2017 Árvore; 2024 Challenging Hike |
+| Árvores com busca em profundidade (Depth-First Search — DFS) e estados | 2017 Árvore; 2024 Challenging Hike |
 | Pilhas com posições físicas | 2022 Desempilhando Caixas |
 | Numéricos e tipos | 2025 A Batalha dos Algoritmos; 2025 O Mercado dos Parâmetros |
 
 ## 7. O que não é possível concluir só pela classificação
 
 - **Não é possível afirmar a estrutura ótima** a partir do título e da descrição breve; cada caderno deve ser estudado com os limites completos.
-- A presença de "árvore" ou "grafo" em um enunciado **não** torna DSU, Segment Tree, Dijkstra ou LCA automaticamente necessárias.
+- A presença de "árvore" ou "grafo" em um enunciado **não** torna conjuntos disjuntos (Disjoint Set Union — DSU), árvore de segmentos (Segment Tree), algoritmo de Dijkstra (Dijkstra's Algorithm) ou ancestral comum mais baixo (Lowest Common Ancestor — LCA) automaticamente necessários.
 - Problemas de caminho mínimo podem ter pesos negativos, não negativos ou ser grades com estados; escolha o algoritmo conforme a definição do enunciado.
 - Algumas abordagens avançadas são apenas **alternativas para aprender**; uma estrutura simples pode ser suficiente para o limite dado.
 - **Nenhum exercício foi resolvido.** Nenhum dos códigos de entrada/saída de amostra foi usado para calcular gabaritos ou criar submissões.
