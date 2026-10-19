@@ -1,0 +1,14 @@
+# Guias de entrada e saída — C++11
+
+Materiais para consulta rápida durante o estudo e a preparação para BOCA/beecrowd.
+
+- [I/O com a biblioteca C](io-c.md): `scanf`, `printf`, especificadores, largura, precisão, EOF, `fgets`, `getchar`, `sscanf`, `snprintf`, buffers e segurança.
+- [I/O de C++11 e equivalências C ↔ C++](io-cpp11.md): `cin`, `cout`, `iomanip`, `getline`, `stringstream`, tabelas de correspondência, diferenças e limitações reais.
+
+## Regras para a prova
+
+1. As soluções são **C++11**. Evite `std::format` (C++20), `std::print` (C++23) e recursos de outras versões não suportados pelo juiz.
+2. Prefira manter uma única família de I/O por solução; não misture streams de C e C++ após chamar `std::ios::sync_with_stdio(false)`.
+3. O redirecionamento para arquivos `stdin` e `stdout` é feito pelo Makefile local — **não** por `freopen` no código.
+4. Em problemas interativos, dê `flush` da saída antes de esperar a resposta do juiz.
+5. Use o compilador selecionado pelo torneio como referência de compatibilidade.

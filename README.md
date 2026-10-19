@@ -2,6 +2,12 @@
 
 Ambiente para praticar maratonas de programação com C++11, usando GNU Make e o compilador `g++`.
 
+## Guias de entrada e saída
+
+- [Documentação em `docs/`](docs/README.md): índice de guias sobre entrada/saída em C e C++11.
+- [Usando `scanf` e `printf` em C++11](docs/io-c.md): formatos, cuidados com buffers, EOF e exemplos.
+- [Equivalências de formatação no I/O de C++11](docs/io-cpp11.md): substituições para `scanf`/`printf`, manipuladores, limites e diferenças.
+
 ## Pré-requisitos: instalar C++
 
 Para compilar **localmente**, instale um compilador C++ e o GNU Make. Nenhuma instalação é necessária para submeter o código ao BOCA ou beecrowd: o juiz compila a solução.
