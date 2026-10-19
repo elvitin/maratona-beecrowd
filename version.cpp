@@ -1,31 +1,22 @@
-
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <string>
-using namespace std;
 
 int main()
 {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    cin >> n;
-
-    vector<int> numeros(n);
-
-    for (int i = 0; i < n; i++)
-    {
-        cin >> numeros[i];
-    }
-
-    sort(numeros.begin(), numeros.end());
-
-    for (int x : numeros)
-    {
-        cout << x << '\n';
-    }
-
+    if (__cplusplus == 202600L)
+        std::cout << "C++26\n"; // Approximate value for preview
+    else if (__cplusplus == 202302L)
+        std::cout << "C++23\n";
+    else if (__cplusplus == 202002L)
+        std::cout << "C++20\n";
+    else if (__cplusplus == 201703L)
+        std::cout << "C++17\n";
+    else if (__cplusplus == 201402L)
+        std::cout << "C++14\n";
+    else if (__cplusplus == 201103L)
+        std::cout << "C++11\n";
+    else if (__cplusplus == 199711L)
+        std::cout << "C++98\n";
+    else
+        std::cout << "Pre-standard C++ or custom configuration: " << __cplusplus << "\n";
     return 0;
 }
