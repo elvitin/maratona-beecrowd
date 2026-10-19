@@ -1,7 +1,9 @@
-# Guias de entrada e saída — C++11
+# Guias de C++11 para maratonas
 
 Materiais para consulta rápida durante o estudo e a preparação para BOCA/beecrowd.
 
+- [Guia aprofundado de C++11 — containers, algoritmos, memória e estruturas compostas](guia-stl-cpp11-maratona.md): inventário de recursos prontos, conversões, passagem por cópia e referência, árvores, grafos, DSU, Fenwick, Segment Tree e trie.
+- [Mapa dos cadernos — problemas e estruturas candidatas](mapa-cadernos-estruturas.md): relaciona os enunciados do acervo `maratona-cadernos` às estruturas sem resolver exercícios.
 - [I/O com a biblioteca C](io-c.md): `scanf`, `printf`, especificadores, largura, precisão, EOF, `fgets`, `getchar`, `sscanf`, `snprintf`, buffers e segurança.
 - [I/O de C++11 e equivalências C ↔ C++](io-cpp11.md): `cin`, `cout`, `iomanip`, `getline`, `stringstream`, tabelas de correspondência, diferenças e limitações reais.
 
