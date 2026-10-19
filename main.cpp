@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int main()
@@ -7,10 +6,12 @@ int main()
   ios::sync_with_stdio(false);
   cin.tie(nullptr);
 
-  int n;
-  cin >> n;
+  int primeiroNumero, segundoNumero;
 
-  vector<int> numeros(n);
+  while (cin >> primeiroNumero >> segundoNumero)
+  {
+    cout << primeiroNumero + segundoNumero << '\n';
+  }
 
   return 0;
 }

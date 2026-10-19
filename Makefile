@@ -23,8 +23,7 @@ help:
 	  '  make clean                        Remove somente os binários de build/.' \
 	  '' \
 	  'Opções:' \
-	  '  make run INPUT=outro.in OUTPUT=outro.out' \
-	  '  make CXX=g++-16                   Usa o GCC do Homebrew (se recompilar).'
+	  '  make run INPUT=outro.in OUTPUT=outro.out'
 
 build: $(BIN)
 

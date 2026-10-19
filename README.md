@@ -2,6 +2,48 @@
 
 Ambiente para praticar maratonas de programação com C++11, usando GNU Make e o compilador `g++`.
 
+## Pré-requisitos: instalar C++
+
+Para compilar **localmente**, instale um compilador C++ e o GNU Make. Nenhuma instalação é necessária para submeter o código ao BOCA ou beecrowd: o juiz compila a solução.
+
+### Ubuntu, Debian e WSL com Ubuntu
+
+```bash
+sudo apt update
+sudo apt install build-essential
+```
+
+O pacote `build-essential` instala as ferramentas necessárias, incluindo `g++` e `make`.
+
+### Fedora
+
+```bash
+sudo dnf install gcc-c++ make
+```
+
+### Arch Linux
+
+```bash
+sudo pacman -S --needed base-devel
+```
+
+### macOS
+
+```bash
+xcode-select --install
+```
+
+As ferramentas de linha de comando da Apple disponibilizam um compilador C++ compatível com C++11 (Apple Clang) e `make`. O executável `g++` pode apontar para o Clang nesse sistema.
+
+### Verificar instalação
+
+```bash
+g++ --version
+make --version
+```
+
+No Windows, uma opção prática é utilizar WSL com Ubuntu e seguir as instruções de Ubuntu acima.
+
 ## Uso local
 
 1. Escreva a solução em `main.cpp`.
@@ -18,7 +60,7 @@ Ambiente para praticar maratonas de programação com C++11, usando GNU Make e o
 | `make build-version` | Compila `version.cpp` em `build/version`, sem executar. |
 | `make clean` | Remove somente `build/`; preserva os exemplos `stdin` e `stdout`. |
 | `make run INPUT=outro.in OUTPUT=outro.out` | Lê e escreve outros arquivos. |
-| `make clean && make CXX=g++-16` | Recompila com o GCC do Homebrew, se instalado. |
+| `make clean && make` | Força uma compilação limpa com o compilador C++ configurado. |
 
 A compilação usa `-std=c++11 -O2 -Wall -Wextra -pedantic`. Se trocar de compilador ou de flags, execute `make clean` para forçar a recompilação.
 
@@ -57,7 +99,7 @@ int main() {
 }
 ```
 
-**Importante:** `main.cpp` é um esqueleto independente desse exemplo; atualmente ele lê um número, cria um vetor e não imprime resultados. Portanto, `make run` com o `main.cpp` atual sobrescreverá `stdout` com um arquivo vazio. Para restaurar o exemplo versionado, execute `git restore stdout`. Ao usar o projeto para outros exercícios, substitua o conteúdo de `stdin` e confira a nova saída.
+**Teste inicial:** `main.cpp` já implementa o exemplo acima. Executar `make` com o `stdin` versionado produz o `stdout` esperado (`3`, `30`, `-5`). Ao substituir a solução ou a entrada para outro problema, `make run` sobrescreverá `stdout` com a nova saída. Para recuperar os arquivos de exemplo versionados, use `git restore stdin stdout`.
 
 ## Entrada/saída: desempenho e cuidados
 
