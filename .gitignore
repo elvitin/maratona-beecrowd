@@ -1,10 +1,6 @@
 # Artefatos de compilação
 /build/
 
-# Entrada e saída de testes locais
-/stdin
-/stdout
-
 # Arquivos temporários
 *.o
 *.out
